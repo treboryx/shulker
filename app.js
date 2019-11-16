@@ -17,12 +17,12 @@ const c = require(configFile)
 let app = null
 let tail = null
 
-function fixUsername (username) {
+function fixUsername(username) {
   return username.replace(/(§[A-Z-a-z0-9])/g, '')
 }
 
 // replace mentions with discriminator with the actual mention
-function replaceDiscordMentions (message) {
+function replaceDiscordMentions(message) {
   if (c.ALLOW_USER_MENTIONS) {
     const possibleMentions = message.match(/@(\S+)/gim)
     if (possibleMentions) {
@@ -41,7 +41,7 @@ function replaceDiscordMentions (message) {
   return message
 }
 
-function makeDiscordMessage (username, message) {
+function makeDiscordMessage(username, message) {
   // make a discord message string by formatting the configured template with the given parameters
   message = replaceDiscordMentions(message)
 
@@ -50,7 +50,7 @@ function makeDiscordMessage (username, message) {
     .replace('%message%', message)
 }
 
-function makeDiscordWebhook (username, message) {
+function makeDiscordWebhook(username, message) {
   message = replaceDiscordMentions(message)
 
   return {
@@ -60,7 +60,7 @@ function makeDiscordWebhook (username, message) {
   }
 }
 
-function makeMinecraftTellraw (message) {
+function makeMinecraftTellraw(message) {
   // same as the discord side but with discord message parameters
   const username = emojiStrip(message.author.username)
   const discriminator = message.author.discriminator
@@ -77,7 +77,7 @@ function makeMinecraftTellraw (message) {
 const debug = c.DEBUG
 const shulker = new Discord.Client()
 
-function initApp () {
+function initApp() {
   // run a server if not local
   if (!c.IS_LOCAL_FILE) {
     app = express()
@@ -111,7 +111,7 @@ function initApp () {
   }
 }
 
-function watch (callback) {
+function watch(callback) {
   if (c.IS_LOCAL_FILE) {
     tail.on('line', function (data) {
       // ensure that this is a message
@@ -169,12 +169,21 @@ shulker.on('message', function (message) {
       }
       const client = new Rcon(c.MINECRAFT_SERVER_RCON_IP, c.MINECRAFT_SERVER_RCON_PORT) // create rcon client
       client.auth(c.MINECRAFT_SERVER_RCON_PASSWORD, function () { // only authenticate when needed
-        client.command('tellraw @a ' + makeMinecraftTellraw(message), function (err) {
-          if (err) {
-            console.log('[ERROR]', err)
-          }
-          client.close() // close the rcon connection
-        })
+        if (c.ADMINS.includes(message.author.id) && message.content.startsWith(c.PREFIX)) {
+          client.command(message.content, function (err) {
+            if (err) {
+              console.log('[ERROR]', err)
+            }
+            client.close() // close the rcon connection
+          })
+        } else {
+          client.command('tellraw @a ' + makeMinecraftTellraw(message), function (err) {
+            if (err) {
+              console.log('[ERROR]', err)
+            }
+            client.close() // close the rcon connection
+          })
+        }
       })
     }
   }

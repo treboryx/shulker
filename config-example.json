@@ -1,25 +1,24 @@
 {
-    "PORT": 8000,
-
+    "PORT": 8777,
     "USE_WEBHOOKS": true,
     "WEBHOOK_URL": "DISCORD_WEBHOOK_URL_HERE",
     "DISCORD_TOKEN": "TOKEN_HERE",
     "DISCORD_CHANNEL_ID": "1234",
-    "DISCORD_MESSAGE_TEMPLATE": "`%username%`: %message%",
-
+    "DISCORD_MESSAGE_TEMPLATE": "*%username%*: %message%",
     "MINECRAFT_SERVER_RCON_IP": "127.0.0.1",
     "MINECRAFT_SERVER_RCON_PORT": 25575,
     "MINECRAFT_SERVER_RCON_PASSWORD": "password",
-    "MINECRAFT_TELLRAW_TEMPLATE": "[{\"color\": \"white\", \"text\": \"<%username%> %message%\"}]",
-
-    "IS_LOCAL_FILE": false,
-    "LOCAL_FILE_PATH": "/usr/home/minecraft_server/logs/latest.log",
-
+    "MINECRAFT_TELLRAW_TEMPLATE": "[{\"color\": \"aqua\", \"text\": \"[Discord] <%username%> %message%\"}]",
+    "IS_LOCAL_FILE": true,
+    "LOCAL_FILE_PATH": "/home/minecraft-vanilla/logs/latest.log",
     "ALLOW_USER_MENTIONS": false,
-
     "WEBHOOK": "/minecraft/hook",
-    "REGEX_MATCH_CHAT_MC": "\\[Server thread/INFO\\]: <([^>]*)> (.*)",
+    "REGEX_MATCH_CHAT_MC": "<([^>]*)> (.*)",
     "REGEX_IGNORED_CHAT": "packets too frequently",
     "RCON_RECONNECT_DELAY": 10,
-    "DEBUG": false
+    "DEBUG": false,
+    "ADMINS": [
+        "ids-here"
+    ],
+    "PREFIX": "mc"
 }
