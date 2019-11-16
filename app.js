@@ -170,7 +170,7 @@ shulker.on('message', function (message) {
       const client = new Rcon(c.MINECRAFT_SERVER_RCON_IP, c.MINECRAFT_SERVER_RCON_PORT) // create rcon client
       client.auth(c.MINECRAFT_SERVER_RCON_PASSWORD, function () { // only authenticate when needed
         if (c.ADMINS.includes(message.author.id) && message.content.startsWith(c.PREFIX)) {
-          client.command(message.content, function (err) {
+          client.command(message.content.replace(c.PREFIX, ""), function (err) {
             if (err) {
               console.log('[ERROR]', err)
             }
