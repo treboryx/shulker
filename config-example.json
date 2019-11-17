@@ -14,6 +14,7 @@
     "ALLOW_USER_MENTIONS": false,
     "WEBHOOK": "/minecraft/hook",
     "REGEX_MATCH_CHAT_MC": "<([^>]*)> (.*)",
+    "REGEX_ASNI_CODE": "\\033\\[[0-9;]*m",
     "REGEX_IGNORED_CHAT": "packets too frequently",
     "RCON_RECONNECT_DELAY": 10,
     "DEBUG": false,

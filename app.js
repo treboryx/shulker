@@ -132,10 +132,13 @@ shulker.on('ready', function () {
     console.log('[INFO] Recieved ' + body)
     const re = new RegExp(c.REGEX_MATCH_CHAT_MC)
     const ignored = new RegExp(c.REGEX_IGNORED_CHAT)
+    const esc = new RegExp(c.REGEX_ASNI_CODE)
     if (!ignored.test(body)) {
       const bodymatch = body.match(re)
       const username = fixUsername(bodymatch[1])
-      const message = bodymatch[2]
+      let message = bodymatch[2]
+      const asni = message.match(esc)
+      if (asni.length) message = message.replace(asni, "")
       if (debug) {
         console.log('[DEBUG] Username: ' + bodymatch[1])
         console.log('[DEBUG] Text: ' + bodymatch[2])
